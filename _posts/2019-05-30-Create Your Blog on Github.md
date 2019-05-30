@@ -16,4 +16,4 @@ tags: jekyll github
 
 
 
-![](http://ww4.sinaimg.cn/large/7011d6cfjw1f2ue0e393vj20cu00t748.jpg)
+![](https://raw.githubusercontent.com/HUSTHuangKai/HUSTHuangKai.github.io/master/_images/CreateYourBlogOnGithub/themes.png)
