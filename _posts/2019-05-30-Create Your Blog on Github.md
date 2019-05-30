@@ -12,8 +12,4 @@ tags: jekyll github
 ## 寻找一个钟意的主题
 首先要有一个github账号，这个不赘述。
 首先在jekyllthemes.org这个网站上寻找一个自己钟意的主题，点击demo可以预览该主题的博客，点击homepage可以进入repostory。如果点击demo不能预览的话就先点开homepage在点上面的xxxxx.github.io链接预览。
-
-
-
-
-![](https://raw.githubusercontent.com/HUSTHuangKai/HUSTHuangKai.github.io/master/_images/CreateYourBlogOnGithub/themes.png)
+![](https://github.com/HUSTHuangKai/HUSTHuangKai.github.io/blob/master/_images/CreateYourBlogOnGithub/themes.png)
