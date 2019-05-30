@@ -22,4 +22,4 @@ tags: jekyll github
 
 
 
-![Image Title](https://github.com/HUSTHuangKai/HUSTHuangKai.github.io/blob/master/_images/CreateYourBlogOnGithub/themes.png)
+![Image Title](http://github.com/HUSTHuangKai/HUSTHuangKai.github.io/blob/master/_images/CreateYourBlogOnGithub/themes.png)
