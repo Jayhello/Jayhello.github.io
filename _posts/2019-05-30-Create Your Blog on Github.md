@@ -20,7 +20,7 @@ tags: jekyll github
 ## 2 fork主题
 选好主题后，点击homepage进入repostory，点击右上角的fork标志。
 
-![fork](https://raw.githubusercontent.com/HUSTHuangKai/HUSTHuangKai.github.io/master/_images/CreateYourBlogOnGithub/fork.png)
+![fork](https://github.com/HUSTHuangKai/HUSTHuangKai.github.io/blob/master/_images/CreateYourBlogOnGithub/fork.png)
 
 fork完成后，点击你头像右边的小箭头，查看你的repostories，就看看到你刚刚fork的项目了。点开这个项目，点击settings。修改项目的名称为xxxx.github.io。注意：xxxx为你的github账号名（最好按照这个格式改，否则你的博客名会很长），点击Rename修改成功。
 
@@ -43,4 +43,5 @@ fork完成后，点击你头像右边的小箭头，查看你的repostories，�
 用法很简单：首先在Account选项卡中点击左边的GitHub配置GitHub帐号，点击Add Account，然后点Creat new token,会跳转到github页面。勾选repo然后点下面的generate token，复制生成的token到jekyllwriter。
 
 ![link](https://raw.githubusercontent.com/HUSTHuangKai/HUSTHuangKai.github.io/master/_images/CreateYourBlogOnGithub/account.png)
-将你的账户添加好后，点击账户名旁边的刷新按钮，就可以显示你的博客repository，如果使用的是默认名称就只有一个\。这时候在file->open post list中可以看到已经有的博文。新建一篇博文，编辑好后点击Publish就可以推送到网页博客中了。
+将你的账户添加好后，点击账户名旁边的刷新按钮，就可以显示你的博客repository，如果使用的是默认名称就只有一个\。这时候在file->open post list中可以看到已
+经有的博文。新建一篇博文，编辑好后点击Publish就可以推送到网页博客中了。
