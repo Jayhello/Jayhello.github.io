@@ -1,15 +1,9 @@
 ---
 title: Create Your Blog on Github
 layout: post
----
----
-layout: post
-title: "在Github上创建自己的博客“
-data: 2019-5-30 15:50
 categories: jekyll
 tags: jekyll github
 ---
-
 * content
 {:toc}
 
