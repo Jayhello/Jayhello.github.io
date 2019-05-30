@@ -9,18 +9,23 @@ tags: jekyll github
 
 这是我在github上创建博客后写的第一篇博文，就分享一下怎么在github上创建自己的博客吧。在自己搭建还是fork别人的项目这个问题上我也纠结了很久，最后还是决定先fork别人的项目吧，毕竟可以快速搭建好并投入使用。
 
+
+
+
+
+
 ## 1 寻找一个钟意的主题
 首先要有一个github账号，这个不赘述。
-首先在[themes](http://jekyllthemes.org/)这个网站上寻找一个自己钟意的主题，点击demo可以预览该主题的博客，点击homepage可以进入repostory。
+首先在[themes](http://jekyllthemes.org/)这个网站上寻找一个自己钟意的主题，点击demo可以预览该主题的博客，点击homepage可以进入repository。
 
 ![themes](https://raw.githubusercontent.com/HUSTHuangKai/HUSTHuangKai.github.io/master/_images/CreateYourBlogOnGithub/themes.png)
 
 ![themes](https://raw.githubusercontent.com/HUSTHuangKai/HUSTHuangKai.github.io/master/_images/CreateYourBlogOnGithub/homepageAndDemo.png)
 
 ## 2 fork主题
-选好主题后，点击homepage进入repostory，点击右上角的fork标志。
+选好主题后，点击homepage进入repository，点击右上角的fork标志。
 
-![fork](https://github.com/HUSTHuangKai/HUSTHuangKai.github.io/blob/master/_images/CreateYourBlogOnGithub/fork.png)
+![fork](https://raw.githubusercontent.com/HUSTHuangKai/HUSTHuangKai.github.io/master/_images/CreateYourBlogOnGithub/fork.png)
 
 fork完成后，点击你头像右边的小箭头，查看你的repostories，就看看到你刚刚fork的项目了。点开这个项目，点击settings。修改项目的名称为xxxx.github.io。注意：xxxx为你的github账号名（最好按照这个格式改，否则你的博客名会很长），点击Rename修改成功。
 
