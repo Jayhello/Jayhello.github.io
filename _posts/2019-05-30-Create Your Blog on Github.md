@@ -16,4 +16,4 @@ tags: jekyll github
 
 
 
-![Image Title](http://github.com/HUSTHuangKai/HUSTHuangKai.github.io/blob/master/_images/CreateYourBlogOnGithub/themes.png)
+![](http://github.com/HUSTHuangKai/HUSTHuangKai.github.io/blob/master/_images/CreateYourBlogOnGithub/themes.png)
