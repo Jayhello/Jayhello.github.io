@@ -1,8 +1,8 @@
 ---
-title: Create Your Blog on Github
+title: java.lang.Math类
 layout: post
-categories: jekyll
-tags: jekyll github
+categories: Java
+tags: java基础
 ---
 * content
 {:toc}
