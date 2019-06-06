@@ -95,7 +95,7 @@ public String[] split(CharSequence input, int limit);
 public Matcher matcher(CharSequence input);//返回一个Matcher类对象，该对象利用此Pattern类对象内的正则表达式对input进行匹配
 ```
 
-2. Matcher类
+2.Matcher类
 
 Matcher类的构造函数被私有化了，并且没有提供静态方法获得Matcher类对象，也就是说Matcher类对象必须依靠Pattern类进行实例化。Matcher主要提供了以下几个方法：
 
