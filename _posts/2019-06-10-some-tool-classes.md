@@ -89,12 +89,10 @@ public class JavaDemo {
 ```
 
 示例中使用方法名和作用如下：
-
 方法名     |    作用
 :-|:-
 static \<T> Optional\<T> of​(T value) | 返回一个Optional\<T>对象，不允许传入空值，如果传入空值则抛出异常
 T get()    |    返回包装的T对象，如果为空则抛出一个异常
 static \<T> Optional\<T> ofNullable​(T value)    |    允许传入一个空值
 T orElse​(T other)    |    返回包装的对象，如果为空则返回other
-
 通过以上示例可以发现，一般可以将of()和get()配合使用，即包装时不允许直接传入空对象，拆包时直接拆包。将ofNullable()和orElse()配合使用，即包装时可以传入空对象，拆包时使用默认对象来代替空对象。或者在任何时候都用orElse方法来拆包。
