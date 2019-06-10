@@ -1,5 +1,5 @@
 ---
-title: 一些java工具类
+title: UUID类和Optional类
 layout: post
 categories: Java
 tags: java基础
@@ -7,7 +7,8 @@ tags: java基础
 * content
 {:toc}
 
-几个java工具类的用法，UUID、Optional。
+UUID类可以用来随机生成无重复的字符串。  
+Optional类可以用来避免if(obj != null)这样的判断。
 
 
 
