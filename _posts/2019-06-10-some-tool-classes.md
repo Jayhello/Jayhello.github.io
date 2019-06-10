@@ -90,9 +90,9 @@ public class JavaDemo {
 
 示例中使用方法名和作用如下：
 
-方法名|作用
+方法名     |    作用
 :-|:-
-static \<T> Optional\<T> of​(T value)|返回一个Optional\<T>对象，不允许传入空值，如果传入空值则抛出异常
+static \<T> Optional\<T> of​(T value) | 返回一个Optional\<T>对象，不允许传入空值，如果传入空值则抛出异常
 T get()|返回包装的T对象，如果为空则抛出一个异常
 static \<T> Optional\<T> ofNullable​(T value)|允许传入一个空值
 T orElse​(T other)|返回包装的对象，如果为空则返回other
