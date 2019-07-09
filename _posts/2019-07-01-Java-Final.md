@@ -88,3 +88,74 @@ int main()
 
 在使用final声明方法或类的时候应该十分谨慎，因为在最初设计类的时候是很难预测这个类日后的使用情况的，也很难排除它需要被继承和覆盖的情况。
 
+## final与安全发布
+
+先看下面一个例子:
+
+```java
+package javademo;
+
+class Base {
+    public Base() {
+        draw();
+    }
+
+    public void draw() {
+        System.out.println("Base draw");
+    }
+}
+
+class Son extends Base {
+    int i = 1;
+
+    @Override
+    public void draw() {
+        // TODO Auto-generated method stub
+        System.out.println("Son draw i = " + i);
+    }
+}
+
+public class JavaDemo {
+    public static void main(String[] args) {
+        Son son = new Son();
+    }
+}
+```
+
+输出结果：Son draw i = 0  
+在基类的构造函数中调用了draw()方法，draw()方法被重写了，因此会调用派生类的draw()方法，输出i，输出结果为0。这是由于java先为对象开辟内存空间，将所有字段赋为0，等到赋值的时候再将0改为要赋的值。在父类构造函数调用draw()的时候，i只被分配了空间，还没有正确赋值，因此输出0。
+
+```java
+package javademo;
+
+class Base {
+    public Base() {
+        draw();
+    }
+
+    public void draw() {
+        System.out.println("Base draw");
+    }
+}
+
+class Son extends Base {
+    final int i = 1;
+
+    @Override
+    public void draw() {
+        // TODO Auto-generated method stub
+        System.out.println("Son draw i = " + i);
+    }
+}
+
+public class JavaDemo {
+    public static void main(String[] args) {
+        Son son = new Son();
+    }
+}
+```
+
+输出：Son draw i = 1
+可以看到将i声明为final字段，同样的代码输出i=1。这是由于final声明的字段必须被正确的初始化，虚拟机在i被分配空间之后就立即将其赋为正确的值。所以在调用draw()的时候i已经被正确赋值了。
+
+关于安全发布，在多线程情境下，很有可能在一个字段被分配空间之后，但还未正确初始化时就被其他线程使用，也就是不同步。根据以上的final特性，如果某一字段在初始化后就不需要被修改，就可以将其设为final，使内存的分配与初始化同时进行，不可以在中间被其他线程打断，这也就是安全发布的意义。  
