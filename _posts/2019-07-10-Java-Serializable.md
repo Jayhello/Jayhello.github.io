@@ -99,3 +99,7 @@ class CellPhone implements Serializable { // 此类型也要声明Serializable�
 ```
 
 输出结果：[小凯  20  185.0  70.0  小凯's phone, 小菲  23  48.44  160.0  小菲's phone, 小杰  19  165.0  60.0  小杰's phone]
+
+## 3 transient关键字  
+
+如果不希望某个字段被序列化就将它声明为transient的，通常，通过计算出来的值不需要序列化，密码等保密性内容不应被序列化。
