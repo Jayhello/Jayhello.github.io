@@ -44,7 +44,7 @@
 
 | isbn | stock |
 | ---- | ----- |
-| 1    | 5     |
+| 1    | 10    |
 | 2    | 10    |
 
 
@@ -224,6 +224,10 @@ public class BookShopDaoImpl implements BookShopDao {
 
    当前账户余额和库存
 
+   ![](Spring%20%E4%B8%AD%E7%9A%84%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86.assets/1571810026459-1571811165897.png)
+
+   ![](Spring%20%E4%B8%AD%E7%9A%84%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86.assets/1571810026459-1571811181157.png)
+
    
 
    
@@ -231,14 +235,25 @@ public class BookShopDaoImpl implements BookShopDao {
 2. 使用required
 
    ```java
-   @Transactional // 默认使用REQUIRED
+   @Service("bookShopService")
+   public class BookShopServiceImpl implements BookShopService {
+   
+   	@Autowired
+   	BookShopDao bookShopDao;
+   	
+   	@Transactional // 默认使用REQUIRED，不启用新事务
    	@Override
-   	public void checkout(int userId, List<String> isbnList) {
+   	public void purchase(int userid, String isbn) {
    		// TODO Auto-generated method stub
-   		for(String isbn : isbnList) {
-   			bookShopService.purchase(userId, isbn);
-   		}
+   		
+   		bookShopDao.updateBookStock(isbn);
+   		
+   		double price = bookShopDao.findBookPriceByIsbn(isbn);
+   		
+   		bookShopDao.updateUserBalance(userid, price);
    	}
+   
+   }
    ```
 
    使用批量购买
@@ -257,12 +272,109 @@ public class BookShopDaoImpl implements BookShopDao {
    
    ```
 
-   结果
+   结果：
 
-   ![1571810187147](Spring 中的事务管理.assets/1571810187147.png)
+   ![](Spring%20%E4%B8%AD%E7%9A%84%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86.assets/1571810187147-1571811243872.png)
 
-   ![1571810207238](Spring 中的事务管理.assets/1571810207238.png)
+   ![](Spring%20%E4%B8%AD%E7%9A%84%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86.assets/1571810207238-1571811254506.png)
+
+   表示购买成功。
 
    
 
-   购买成功
+   再次运行测试程序，id为1的用户，购买isbn为1、2的书各一本。
+
+   结果：
+
+   > com.husthuangkai.spring.tx.UserBalanceException: 余额不足！
+   > ....
+
+   出现此异常，查看余额和库存：
+
+   ![1571811398122](Spring%20%E4%B8%AD%E7%9A%84%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86.assets/1571811398122.png)
+
+   ![1571811404881](Spring%20%E4%B8%AD%E7%9A%84%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86.assets/1571811404881.png)
+
+   可见，默认情况下，使用REQUIRED参数，checkout（）是一整个事务，purchase（）不启用新事务，当发生异常时，checkout（）回滚。
+
+   
+
+3. 使用REQUIRED_NEW
+
+   ```java
+   @Service("bookShopService")
+   public class BookShopServiceImpl implements BookShopService {
+   
+   	@Autowired
+   	BookShopDao bookShopDao;
+       
+   	/*
+   	 *使用 propagation指明事务的传播属性，默认为REQUIRED
+   	 *REQUIRED：使用调用方法的事务，当异常发生时，回滚调用方法
+   	 *REQUIRES_NEW：本方法要求启用新事务，当本方法发生异常时，仅回滚本事务
+   	 */
+   	// @Transactional // 默认使用REQUIRED，不启用新事务
+   	@Transactional(propagation = Propagation.REQUIRES_NEW) // 指明使用REQUIRES_NEW，需要启用新事务
+   	@Override
+   	public void purchase(int userid, String isbn) {
+   		// TODO Auto-generated method stub
+   		
+   		bookShopDao.updateBookStock(isbn);
+   		
+   		double price = bookShopDao.findBookPriceByIsbn(isbn);
+   		
+   		bookShopDao.updateUserBalance(userid, price);
+   	}
+   
+   }
+   ```
+
+   运行测试程序：
+
+   ```java
+   // 测试结账服务
+   	@Test
+   	public void testCashierService() {
+   		List<String> isbnList = new LinkedList<String>();
+   		isbnList.add("2");
+   		isbnList.add("1");
+   		
+   		// id为1的用户，购买isbn为1、2的书各一本
+   		cashier.checkout(1, isbnList);
+   	}
+   ```
+
+   结果：
+
+   > com.husthuangkai.spring.tx.UserBalanceException: 余额不足！
+   > ...
+   >
+
+   出现余额不足异常，查看余额和库存：
+
+   ![1571813790298](Spring%20%E4%B8%AD%E7%9A%84%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86.assets/1571813790298.png)
+
+   ![1571813797605](Spring%20%E4%B8%AD%E7%9A%84%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86.assets/1571813797605.png)
+
+   结果是购买了一本书，表明purchase()启动了新的事务，发生异常时，perchase()回滚，checkout()不回滚。
+
+
+
+## 6 事务的其他属性
+
+### 6.1 事务的隔离级别
+
+使用isolation指定事务的隔离级别，最常用的是READ_COMMITED。
+READ_COMMITED：读已提交
+
+### 6.2 事务的回滚属性
+
+默认情况下，Spring的声明式事务对所有的运行时异常进行回滚，也可以通过对应的属性进行设置，通常情况下使用默认值即可。
+
+### 6.3 事务的只读属性
+
+使用readOnly指定事务是否只读，表示这个事务只读取数据但不更新数据，这样可以帮助数据库引擎优化事务。
+
+### 6.4 事务的超时属性
+
+使用timeout指定事务的时间限制，如果超时则回滚。
