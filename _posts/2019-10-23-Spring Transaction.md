@@ -16,7 +16,9 @@
 - 必须为不同的方法重写类似的样板代码
 - 这段代码是特定于 JDBC 的, 一旦选择类其它数据库存取技术, 代码需要作出相应的修改
 
-![1571735884261](C:\Users\DELL\AppData\Roaming\Typora\typora-user-images\1571735884261.png)
+![](Spring%20%E4%B8%AD%E7%9A%84%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86.assets/1571735884261-1571811056946.png)
+
+
 
 ## 3 Spring中的事务管理
 
@@ -222,11 +224,7 @@ public class BookShopDaoImpl implements BookShopDao {
 
    当前账户余额和库存
 
-   ![1571810026459](C:\Users\DELL\AppData\Roaming\Typora\typora-user-images\1571810026459.png)
-
    
-
-   ![1571810007830](C:\Users\DELL\AppData\Roaming\Typora\typora-user-images\1571810007830.png)
 
    
 
@@ -261,8 +259,10 @@ public class BookShopDaoImpl implements BookShopDao {
 
    结果
 
-   ![1571810187147](C:\Users\DELL\AppData\Roaming\Typora\typora-user-images\1571810187147.png)
+   ![1571810187147](Spring 中的事务管理.assets/1571810187147.png)
 
-   ![1571810207238](C:\Users\DELL\AppData\Roaming\Typora\typora-user-images\1571810207238.png)
+   ![1571810207238](Spring 中的事务管理.assets/1571810207238.png)
+
+   
 
    购买成功
