@@ -378,3 +378,46 @@ READ_COMMITED：读已提交
 ### 6.4 事务的超时属性
 
 使用timeout指定事务的时间限制，如果超时则回滚。
+
+
+
+## 7 使用配置文件配置事务管理器
+
+```xml
+	<!-- 配置 bean -->
+	<bean id="bookShopDao" class="com.atguigu.spring.tx.xml.BookShopDaoImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate"></property>
+	</bean>
+	
+	<bean id="bookShopService" class="com.atguigu.spring.tx.xml.service.impl.BookShopServiceImpl">
+		<property name="bookShopDao" ref="bookShopDao"></property>
+	</bean>
+	
+	<bean id="cashier" class="com.atguigu.spring.tx.xml.service.impl.CashierImpl">
+		<property name="bookShopService" ref="bookShopService"></property>
+	</bean>
+	
+	<!-- 1. 配置事务管理器 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	<!-- 2. 配置事务属性 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<!-- 根据方法名指定事务的属性 -->
+			<tx:method name="purchase" propagation="REQUIRES_NEW"/>
+			<tx:method name="get*" read-only="true"/>
+			<tx:method name="find*" read-only="true"/>
+			<tx:method name="*"/>
+		</tx:attributes>
+	</tx:advice>
+	
+	<!-- 3. 配置事务切入点, 以及把事务切入点和事务属性关联起来 -->
+	<aop:config>
+		<aop:pointcut expression="execution(* com.atguigu.spring.tx.xml.service.*.*(..))" 
+			id="txPointCut"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut"/>	
+	</aop:config>
+```
+
