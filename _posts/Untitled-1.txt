@@ -1,0 +1,192 @@
+mysql 使用
+mysql -u root -p登陆root账户
+mysql 默认配置文件位置：C:\ProgramData\MySQL\MySQL Server 8.0
+修改默认字符编码为utf-8
+默认数据库引擎为INNODB
+[mysqld]
+character-set-server=utf8
+default-storage-engine=innodb
+[client]
+default-character-set=utf8
+
+创建和删除数据库
+命令：
+show databases; 查看所有数据库
+create database name；创建一个名为name的数据库
+drop database name；删除名为name的数据库
+
+mysql数据类型：
+文本类
+VARCHAR（size）可变长度文本类型，如果长度不到size，就使用实际长度，如果超过会自动适应。
+最多255个字符，超过会转为TEXT类型。
+TEXT存放最大长度为65535个字符的字符串。
+LONGTEXT 存放2^32次方长度的字符串。
+等等
+
+数据类
+TYNIINT（size） 8位int
+INT（size） 32位int
+BIGINT（size） 64位int
+DOUBLE（size） 64位浮点型
+等等
+
+日期类
+DATETIME（） 日期和间的组合
+等等
+
+
+创建和删除表
+命令：
+create table table_name(
+    colum_name data_type,
+    colum_name data_type,
+    ...
+    colum_name data_type,
+);
+创建一个数据表，每一列的名字和类型
+
+例如：
+create table account1(
+    id bigint(20),
+    createTime datetime,
+    ip varchar(255),
+    mobile varchar(255),
+    nickname varchar(255),
+    passwd varchar(255),
+    usernmae varchar(255),
+    avatar varchar(255),
+    brief text,
+    job varchar(255),
+    location varchar(255),
+    qq varchar(255),
+    gender int(11),
+    city varchar(255),
+    province varchar(255)
+);
+
+命令:
+drop table table_name;
+删除一个数据表
+
+命令：
+show tables;
+显示一个数据库中的所有表
+
+命令：
+describe table_name;
+显示表结构
+
+增加和删除一列
+命令：
+alter table [table_name] add [column_nmae] [data_type] [notnull] [defaultvalue]
+给表增加一列
+例子：alter table account add c1 int(11) not null default 1;
+给表account添加一列，名为c1，类型位int（11），不为null，默认值为1；
+
+命令：
+alter table [table_name] drop [column_name];
+从表中删除一列
+
+
+修改表明和列信息：
+命令：
+alter table [table_name] change [old_column_name] [new_column_name] [data_type]
+修改一列为新的列名和数据类型
+
+命令：
+alter table [table_name] rename [new_table_name]
+修改表名
+
+插入和查看表数据：
+命令：
+select * from table_name;
+查看整张表的数据
+
+select col_name1,col_name2,...from table_nmae;
+查询某些列的数据
+
+命令：
+insert into [table_name] values(值1，值2，...)
+插入一整行数据
+insert into [table_name] (列1，列2) values(值1，值2)
+插入一行数据，指定某些行有数据
+
+where条件查询
+select * from table_name where col_name 运算符 值
+例子:
+select * from bool where title = 't';
+
+常用运算符：
+=          等于（不是赋值）
+!=
+>
+<
+>=
+<=
+between    在两个值范围内
+like       按某个模式查找
+
+组合条件 and、or
+语法：
+select * from table_name where col1 = xxx and col2 = xx or col3 > xx;
+可以通过括号来进行条件的组合
+
+对值null的判断
+不能使用 = 或者 !=判断
+要使用is null 或者 is not null
+
+命令：
+select distinct去掉重复查询结果
+select distinct col_name from table_name;
+例子:
+select distinct title from book;
+
+使用order by对查询结果排序
+命令:
+slect * from table_name [where 子句] order by col_name [asc/desc]
+按照单一列排序
+asc升序
+desc降序
+
+select * from table_name [where子句] order by col1 [asc/desc],col2 [asc,desc]
+按照多列排序，如果第一列相等，就按照第二列排序
+
+使用limit截取查询结果
+select * from table_name [where子句] [order by子句] limit [offset,] rowCount
+offset：查询结果的起始位置
+rowcount：从offset位置开始，获取的记录条数
+limit rowcount = limit 0,rowcount
+
+insert into和select的组合使用
+命令：
+insert into [table_name1] select column_name1,colum_name2 from [table_name2]
+从表2中选出一些输入插入表1
+
+更新表数据
+修改单列：
+update [table_name] set [column_name] = xxx [where 子句]
+
+修改多列：
+update [table_name] set [column_name1] = xxx,[column_name2] = xxx [where子句]
+
+
+where语句中in操作符使用
+select * from [table_name] where [column_name] in (value1,value2)
+将等于value1，和value2的都查询出来
+select * from [table_name] where [column_name] in (select语句)
+查询一张表中的等于另一张表的一些列的数据
+
+where语句中between的操作符和使用
+命令：
+select * from [table_name] where [column_name] between a and b;
+筛选出在a和b之间的数据
+
+where语句中like操作符的使用
+命令：
+select * from [table_name] where [column_name] [not] like pattern
+匹配字符串
+pattern：匹配模式
+‘abc’ 完全匹配abc
+‘%abc’ 结尾是abc
+‘abc%’ 开头匹配abc
+‘%abc%’ 中间匹配abc，含有abc
