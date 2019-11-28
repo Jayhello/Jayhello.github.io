@@ -6,46 +6,37 @@ tags: java基础
 ---
 * content
 {:toc}
-这个是学习JavaWeb最后地一个练习案例，实现一个简单的网上书城。
+这个是学习JavaWeb最后地一个练习案例，实现一个简单的网上书城。这里先进行一些简单的介绍。
 
 
 
 
 
-# 1 配置环境
+# 1 功能分析
 
-1. 配置c3p0数据源
+![1574925349499](../images/2019-11-27-JavaWeb-BookStore.assests/1574925349499.png)
 
-   - 先加入两个jar包：
+# 2 总体架构
 
-     c3p0-0.9.1.2.jar
+![1574925408432](../images/2019-11-27-JavaWeb-BookStore.assests/1574925408432.png)
 
-     mysql-connector-java-8.0.16.jar
 
-   - 编辑配置文件
 
-     在src中加入c3p0-config.xml，内容如下：
+# 3 技术选型
 
-     ```xml
-     <?xml version="1.0" encoding="UTF-8"?>
-     <c3p0-config>
-       <named-config name="mvc"> 
-       
-         <property name="user">root</property>
-         <property name="password">123456</property>
-         <property name="driverClass">com.mysql.cj.jdbc.Driver</property>
-         <property name="jdbcUrl">jdbc:mysql://localhost:3306/test?useSSL=false&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true</property>
-       
-         <property name="acquireIncrement">5</property>
-         <property name="initialPoolSize">10</property>
-         <property name="minPoolSize">5</property>
-         <property name="maxPoolSize">50</property>
-     
-         <property name="maxStatements">20</property> 
-         <property name="maxStatementsPerConnection">5</property>
-     
-       </named-config>
-     </c3p0-config>
-     ```
+![1574925484406](../images/2019-11-27-JavaWeb-BookStore.assests/1574925484406.png)
 
-2. 
+# 4 难点分析
+
+![1574925517030](../images/2019-11-27-JavaWeb-BookStore.assests/1574925517030.png)
+
+# 5 实体类设计
+
+![1574925536959](../images/2019-11-27-JavaWeb-BookStore.assests/1574925536959.png)
+
+# 6 数据表设计
+
+![1574925551999](../images/2019-11-27-JavaWeb-BookStore.assests/1574925551999.png)
+
+![1574925570439](../images/2019-11-27-JavaWeb-BookStore.assests/1574925570439.png)
+
