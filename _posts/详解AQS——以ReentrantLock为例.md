@@ -320,24 +320,26 @@
 7. `shouldParkAfterFailedAcquire`方法
 
    ```java
-       private static boolean shouldParkAfterFailedAcquire(Node pred, Node node) {
+       // 这个函数的作用就是将前面的节点的waitStatus设为SIGNAL（-1），告诉它如果用完锁了就把自己叫醒，返回是否设置成功
+   	private static boolean shouldParkAfterFailedAcquire(Node pred, Node node) {
            // 取前一个节点的waitStatus
            int ws = pred.waitStatus;
-           // 一个节点的waitStatus==SIGNAL表示当前节点的下一个节点应该等待
+           // 如果前一个结点已经知道这事了，那就不要烦他了，直接返回true
            if (ws == Node.SIGNAL)
                return true;
-           // waitStatus>0表示当前节点已经被取消
+           
+           // ws>0表示前面的节点已经被取消，排在前面的老哥撂挑子不干了
            if (ws > 0) {
-               // 那就一直往前找，并释放这些被取消的节点，直到找到没有被释放的那个节点为止
+               // 那就一直往前找，跳过并释放这些被取消的节点，直到找到没有被释放的那个节点为止
                do {
                    node.prev = pred = pred.prev;
-               } while (pred.waitStatus > 0);// 这里没有判断pred != null，是因为一直往前找会找到head节点，而head是当前持有锁的线程，一定不会被取消了
+               } while (pred.waitStatus > 0);// 这里没有判断pred != null，是因为一直往前找会找到head节点，而head是当前持有锁的线程，一定不会是被取消了
                pred.next = node;
            } else {
-               // 否则，用CAS将前一个节点的waitStatus设为SIGNAL
+               // 前面的节点没有被取消，用CAS将前一个节点的waitStatus设为SIGNAL，告诉他一会叫我
                compareAndSetWaitStatus(pred, ws, Node.SIGNAL);
            }
-           // 返回false
+           // 这里会返回false，当前线程不会被挂起，但是没关系，这个函数是在自旋中调用的，下一次自旋还会进来，那时候就可能会返回true了
            return false;
        }
    ```
