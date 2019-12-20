@@ -837,7 +837,7 @@ ReadLock实现的是共享锁模式。
 
 5. `doAcquireShared()`方法
 
-   这个方法是`AQS`中的方法，在等待队列中等待获取共享锁。
+   这个方法是`AQS`中的方法，在等待队列中等待获取共享锁，基本上和`acquireQueued`一样，只有一处有所不同。
 
    ```java
        private void doAcquireShared(int arg) {
@@ -850,6 +850,7 @@ ReadLock实现的是共享锁模式。
                    if (p == head) {
                        int r = tryAcquireShared(arg);
                        if (r >= 0) {
+                           // 这个地方有点不一样，获取排他锁的时候调用的是setHead()，此处调用的setHeadAndPropagate()意思是将本节点设为头节点，并向后传递，因为本方法获取的是共享锁，如果后续节点获取的也是共享锁，是可以获得到锁的，因此要向后传递。这个操作实际上会把等待队列前面的获取共享锁的节点释放到只剩一个。因为如果唤醒了下一个等待共享锁线程，它还是在这个自旋里，如果它成功获取了共享锁，就会将头节点设为自己，这就等于释放了之前的头节点。直到没有后继节点或者下一个节点在等待获取排他锁。
                            setHeadAndPropagate(node, r);
                            p.next = null; // help GC
                            if (interrupted)
@@ -867,6 +868,108 @@ ReadLock实现的是共享锁模式。
                    cancelAcquire(node);
            }
        }
+```
+   
+6. `setHeadAndPropagate()`方法
+
+   ```java
+       private void setHeadAndPropagate(Node node, int propagate) {
+           // 将本节点设为头节点（本节点是第二个节点）
+           Node h = head;
+           setHead(node);
+           if (propagate > 0 || h == null || h.waitStatus < 0 ||
+               (h = head) == null || h.waitStatus < 0) {
+               Node s = node.next;
+               // 如果下一个节点是共享锁，就唤醒下一个节点
+               if (s == null || s.isShared())
+                   doReleaseShared();
+           }
+       }
+   ```
+
+7. `doReleaseShared()`方法
+
+   ```java
+       private void doReleaseShared() {
+           // 自旋
+           for (;;) {
+               Node h = head;
+               if (h != null && h != tail) {
+                   int ws = h.waitStatus;
+                   if (ws == Node.SIGNAL) {
+                       // 如果head的waitStatus显示下一个节点正在等待，就用CAS尝试更改waitStatus，若CAS失败，进入下一次自旋，若成功，唤醒head的后继等待节点
+                       if (!compareAndSetWaitStatus(h, Node.SIGNAL, 0))
+                           continue;            
+                       unparkSuccessor(h);
+                   }
+                   // 如果head的waitStatus==0，表示暂时还没有后继节点将head的waitStatus设为SIGNAL，这时候将waitStatus设为PROPAGATE，确保传递能够继续
+                   else if (ws == 0 &&
+                            !compareAndSetWaitStatus(h, 0, Node.PROPAGATE))
+                       continue;                
+               }
+               // 到这里说明CAS成功了，如果h！=head，说明在这一次自旋过程中，被唤醒的节点获取到了共享锁，并把head改为自己，这时就要继续尝试传递，否则就可以退出自旋了。
+               if (h == head)                   
+                   break;
+           }
+       }
+   ```
+
+
+
+### 3.2.2 释放锁
+
+1. `unlock()`
+
+   ```java
+           public void unlock() {
+               sync.releaseShared(1);
+           }
+   ```
+
+   ```java
+       public final boolean releaseShared(int arg) {
+           if (tryReleaseShared(arg)) {
+               // 尝试唤醒后继节点
+               doReleaseShared();
+               return true;
+           }
+           return false;
+       }
+   ```
+
+2. `tryReleaseShared()`方法
+
+   ```java
+           // 这个参数unused没用过，因为它必然是1
+   		protected final boolean tryReleaseShared(int unused) {
+               Thread current = Thread.currentThread();
+               // 修改holdCount的逻辑
+               if (firstReader == current) {
+                   if (firstReaderHoldCount == 1)
+                       firstReader = null;
+                   else
+                       firstReaderHoldCount--;
+               } else {
+                   HoldCounter rh = cachedHoldCounter;
+                   if (rh == null || rh.tid != getThreadId(current))
+                       rh = readHolds.get();
+                   int count = rh.count;
+                   if (count <= 1) {
+                       readHolds.remove();
+                       if (count <= 0)
+                           throw unmatchedUnlockException();
+                   }
+                   --rh.count;
+               }
+               // 自旋
+               for (;;) {
+                   int c = getState();
+                   int nextc = c - SHARED_UNIT;
+                   if (compareAndSetState(c, nextc))
+                       // 只有state==0的时候才返回true，表示读锁和写锁都释放了
+                       return nextc == 0;
+               }
+           }
    ```
 
    
