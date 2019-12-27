@@ -1,3 +1,17 @@
+---
+title: 详解AQS——以ReentrantLock/ReentrantReadWriteLock为例
+layout: post
+categories: Java
+tags: 多线程
+---
+* content
+{:toc}
+
+AQS是啥？这个先不管，ReentrantLock、ReentrantReadWriteLock、Semaphore、CountDownLatch、CyclicBarrier都靠它实现，没它不行。而且，你还可以用它来方便的实现自定义的同步器。什么？这么厉害，那当然要好好了解一下。
+
+
+
+
 # 1 AQS类简介
 
 1. 首先`AQS`全称叫`AbstractQueuedSynchronizer`，意思就是**抽象的队列同步器**。它是一个抽象类，需要实现共享锁或者排他锁的类可以通过继承这个类，并覆盖其中的`tryAcquire(int)-tryRelease(int)`或者`tryAcquireShared(int)-tryReleaseShared(int)`中的一组。
@@ -868,25 +882,26 @@ ReadLock实现的是共享锁模式。
                    cancelAcquire(node);
            }
        }
-```
+   ```
    
 6. `setHeadAndPropagate()`方法
 
    ```java
-       private void setHeadAndPropagate(Node node, int propagate) {
-           // 将本节点设为头节点（本节点是第二个节点）
-           Node h = head;
-           setHead(node);
-           if (propagate > 0 || h == null || h.waitStatus < 0 ||
-               (h = head) == null || h.waitStatus < 0) {
-               Node s = node.next;
-               // 如果下一个节点是共享锁，就唤醒下一个节点
-               if (s == null || s.isShared())
-                   doReleaseShared();
-           }
-       }
+   private void setHeadAndPropagate(Node node, int propagate) {
+              // 将本节点设为头节点（本节点是第二个节点）
+              Node h = head;
+              setHead(node);
+              if (propagate > 0 || h == null || h.waitStatus < 0 ||
+                  (h = head) == null || h.waitStatus < 0) {
+                  Node s = node.next;
+                  // 如果下一个节点是共享锁，就唤醒下一个节点
+                  if (s == null || s.isShared())
+                      doReleaseShared();
+              }
+          }
    ```
 
+   
 7. `doReleaseShared()`方法
 
    ```java
@@ -972,7 +987,12 @@ ReadLock实现的是共享锁模式。
            }
    ```
 
-   
+
+
+
+
+
+注：图是网上down来的，侵删。
 
 
 
