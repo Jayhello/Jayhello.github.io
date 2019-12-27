@@ -18,7 +18,7 @@ AQS是啥？这个先不管，ReentrantLock、ReentrantReadWriteLock、Semaphore
 
 2. `state`变量
 
-   `state`是`AQS`类中的一个`volatile int`变量，它记录了锁的状态。如果`state`为0表示锁没有被任何线程占有。当有线程请求锁的时候，可以带一个`acquire`参数，表示线程请求的资源数。如果请求成功，就将`acquire`加到`state`上。
+   `state`是`AQS`类中的一个`volatile int`变量，它记录了锁的状态。具体的什么值表示什么状态取决于具体的派生类，例如`ReentrantLock`中0表示锁未被占有，正数表示锁的重入次数，而`CountDownLatch`中则表示倒计时的数。
 
    `AQS`中提供了三种方法来修改此变量：
 
