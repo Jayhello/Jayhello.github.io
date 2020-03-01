@@ -7,7 +7,7 @@ tags: 多线程
 * content
 {:toc}
 
-AQS是啥？这个先不管，ReentrantLock、ReentrantReadWriteLock、Semaphore、CountDownLatch、CyclicBarrier都靠它实现，没它不行。而且，你还可以用它来方便的实现自定义的同步器。什么？这么厉害，那当然要好好了解一下。
+AQS是啥？这个先不管，ReentrantLock、ReentrantReadWriteLock、Semaphore、CountDownLatch都靠它实现，没它不行。而且，你还可以用它来方便的实现自定义的同步器。什么？这么厉害，那当然要好好了解一下。
 
 
 
@@ -901,7 +901,6 @@ ReadLock实现的是共享锁模式。
           }
    ```
 
-   
 7. `doReleaseShared()`方法
 
    ```java
