@@ -180,4 +180,11 @@
    </select>
    ```
 
-   
+
+
+
+### 4 什么是mybatis三剑客
+
+1. generator用于生成pojo和mapper。
+2. plugins提高开发效率，Mapper与xml中的sql导航等功能。
+3. pagehelper用于分页查询的辅助。

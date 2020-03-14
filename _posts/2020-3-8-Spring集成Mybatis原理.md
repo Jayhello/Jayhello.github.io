@@ -321,7 +321,7 @@ public class MapperScannerRegistrar implements ImportBeanDefinitionRegistrar, Re
 - 可以使用@Import注解来导入这个接口的实现类。
 - 实现了这个接口的类的方法将会被调用，用来注册bean definitions。
 
-如果看过一点spring源码的同学会知道，BeanDefinition就是用来定义bean的类，spring在初始化容器的时候会先将配置都扫描成BeanDefinition，再通过BeanDefinition来生成bean，因此，只要向容器中注入了BeanDefinition，那么就可以从容器中获取到响应的bean。我们来看一下具体的源码。
+如果看过一点spring源码的同学会知道，BeanDefinition就是用来定义bean的类，spring在初始化容器的时候会先将配置都扫描成BeanDefinition，再通过BeanDefinition来生成bean，因此，只要向容器中注入了BeanDefinition，那么就可以从容器中获取到相应的bean。我们来看一下具体的源码。
 
 ```java
 public class MapperScannerRegistrar implements ImportBeanDefinitionRegistrar, ResourceLoaderAware {
