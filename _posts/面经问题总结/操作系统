@@ -57,3 +57,11 @@
 
 解决僵尸进程最好的办法就是结束它的父进程。
 
+
+
+### 5 进程的三种基本状态
+
+1. Ready：进程已获得除处理器外的所需资源，只是在等待分配处理器资源，只要分配了处理器进程就可执行。
+2. Running：进程占用处理器资源，处于此状态的进程的数目小于等于处理器的数目。
+3. Blicking：系统由于进程等待某种条件（如[I/O操作](https://www.baidu.com/s?wd=I%2FO操作&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao)或[进程同步](https://www.baidu.com/s?wd=进程同步&tn=SE_PcZhidaonwhc_ngpagmjz&rsv_dl=gh_pc_zhidao)），在条件满足之前无法继续执行。该事件发生前即使把处理器资源分配给该进程，该进程也无法进行运行。
+
