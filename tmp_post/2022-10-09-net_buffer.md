@@ -208,12 +208,8 @@ const uint32_t MAGIC = 0x1234;
 
 class CodecBase{
 public:
-//    static const uint32_t MAGIC = 0x1234;
-
     virtual  ~CodecBase(){};
-
     virtual void encode(const Msg& msg, Buffer& buf) = 0;
-
     // < 0 buf数据异常, = 0 数据不完整, > 0 解析出了一个多大的msg包
     virtual int tryDecode(const Buffer& buf, Msg& msg) = 0;
 };
