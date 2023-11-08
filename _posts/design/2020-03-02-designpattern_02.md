@@ -261,12 +261,12 @@ public:
 protected:
     static std::unordered_map<Key, PuCreator> m_key_pcreator;
 };
-创建对象
+// 创建对象
 template<typename Key, typename Base, typename ...Args>
 typename Factory<Key, Base, Args...>::PBase Factory<Key, Base, Args...>::CreateObj(const Key& key, const Args& ...args){
     return m_key_pcreator[key]->Create(args...);
 }
-当然上面也可以抛出异常：
+// 当然上面最好加上抛出异常：
 template<typename Key, typename Base, typename ...Args>
 typename Factory<Key, Base, Args...>::PBase Factory<Key, Base, Args...>::CreateObj(const Key& key, const Args& ...args){
     if(0 == m_key_pcreator.count(key)){
@@ -275,7 +275,7 @@ typename Factory<Key, Base, Args...>::PBase Factory<Key, Base, Args...>::CreateO
 
     return m_key_pcreator[key]->Create(args...);
 }
-注册：
+// 注册：
 template<typename Key, typename Base, typename ...Args>
 void Factory<Key, Base, Args...>::Register(const Key& key, typename Factory<Key, Base, Args...>::PCreator p_alloc){
     typename Factory<Key, Base, Args...>::PuCreator p(p_alloc);
@@ -287,7 +287,7 @@ Factory<Key, Base, Args...>& Factory<Key, Base, Args...>::GetInstance(){
     static Factory factory;
     return factory;
 }
-测试类：
+// 测试类：
 class Base{
 public:
     Base(string name="base"):name_(name){}

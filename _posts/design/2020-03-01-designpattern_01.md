@@ -22,7 +22,7 @@ author: xy
 
 C++简单的单例如下:
 
-```
+```c++
 class Singleton{
 public:
     static Singleton* GetInstance(){
@@ -44,12 +44,12 @@ private:   // not protected不然子类可以创建对象了
 
 使用实例如下:
 
-```
+``` c++
     Singleton::GetInstance()->print();
 ```
 
 上面的代码问题在于, 单例模式的代码无法服用了, 可以用模板的方式实现:
-```
+```c++
 class noncopyable{
 public:
     noncopyable(const noncopyable&) = delete;
@@ -73,7 +73,7 @@ public:
 ```
 使用如下:
 
-```
+```c++
 class Config : public Singleton<Config>{
 public:
     int getAppid(){...}
@@ -91,7 +91,7 @@ CONF_INS->getAppid();
 
 问题上面的单例模式，在多线程环境下，线程安全吗?
 C++11以及之后是安全的, 对于静态变量的创建编译器会插入静态变量的锁.
-```
+```c++
 Singleton& Singleton::instance(){
     // check to see if we need to create the Singleton
     EnterCriticalSection( &instance_lock);
@@ -106,7 +106,7 @@ Singleton& Singleton::instance(){
 
 有些时候我们需要线程级别的单例模式, 例如使用 `mysql client` 时候(非线程安全的), 这个时候可以考虑写通用线程安全级别的单例模式, 将上面的`static` 改为`c++`的 `thread_local` 即可
 
-```
+```c++
 template<typename T>
 class ThreadSingleton : public noncopyable{
 public:
@@ -118,7 +118,7 @@ public:
 ```
 
 使用如下：
-```
+```c++
 class DbHandle : public ThreadSingleton<DbHandle>{
 public:
     DbHandle(){
