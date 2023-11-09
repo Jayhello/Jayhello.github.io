@@ -92,7 +92,7 @@ void test_chain(){
     User user1{"xy", "xy_pwd", ""};
     User user2{"xy2", "xy_pwd2", "black ip"};
 
-    FilterChain fc;
+    FilterChain fc;  // 里面先忽略指针释放的问题, 主要关注实现以及使用
     fc.AddFilter(new AccountFilter).AddFilter(new IpFilter);
 
     bool is_spam;
