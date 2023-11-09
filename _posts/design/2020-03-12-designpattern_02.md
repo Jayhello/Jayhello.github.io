@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "设计模式-工厂模式(c++实现)"
-date:   2020-03-02
+date:   2020-03-07
 tags: [设计模式]
 comments: true
 author: xy
